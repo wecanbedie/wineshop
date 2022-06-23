@@ -5,7 +5,6 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pandas import read_excel
-from pprint import pprint
 
 
 foundation_date = datetime.datetime(year=1920, month=3, day=6)
@@ -19,7 +18,7 @@ env = Environment(
             loader=FileSystemLoader('.'),
             autoescape=select_autoescape(['html', 'xml'])
 )   
-wine_data = read_excel('wine3.xlsx', sheet_name='Лист1', na_values=['N/A', 'NA'], keep_default_na=False)
+wine_data = read_excel('wine.xlsx', sheet_name='Лист1', na_values=['N/A', 'NA'], keep_default_na=False)
 
 winesorts = wine_data.to_dict(orient='records')
 
