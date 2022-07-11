@@ -1,12 +1,19 @@
 import collections
 import datetime
+import argparse
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pandas import read_excel
 
+
+
 def main():
+    parser = argparse.ArgumentParser(description='Ваш путь к файлу.')
+    parser.add_argument('filepath', type=str, help='Укажите ваш путь к excel-файлу.')
+    arg = parser.parse_args()
+
     foundation_date = 1920
     current_date = datetime.datetime.today()
     current_year = current_date.year
@@ -17,7 +24,7 @@ def main():
                 loader=FileSystemLoader('.'),
                 autoescape=select_autoescape(['html', 'xml'])
     )   
-    data_from_the_file = read_excel('wine.xlsx', sheet_name='Лист1', na_values=['N/A', 'NA'], keep_default_na=False)
+    data_from_the_file = read_excel(arg.filepath, sheet_name='Лист1', na_values=['N/A', 'NA'], keep_default_na=False)
 
     data_drinks_dictionary = data_from_the_file.to_dict(orient='records')
 
@@ -43,7 +50,6 @@ def main():
                     SimpleHTTPRequestHandler
                 )
     server.serve_forever()
-
 
 
 if __name__ == '__main__':
