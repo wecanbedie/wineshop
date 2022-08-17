@@ -14,10 +14,10 @@ def main():
     parser.add_argument('filepath', type=str, help='Укажите ваш путь к excel-файлу.')
     arg = parser.parse_args()
 
-    foundation_wineshop = 1920
+    wineshop_foundation = 1920
     current_date = datetime.datetime.today()
     current_year = current_date.year
-    age_winery = current_year - foundation_wineshop
+    winery_age = current_year - wineshop_foundation
 
 
     env = Environment(
@@ -26,18 +26,18 @@ def main():
     )   
     excel_file = read_excel(arg.filepath, sheet_name='Лист1', na_values=['N/A', 'NA'], keep_default_na=False)
 
-    data_drinks = excel_file.to_dict(orient='records')
-
+    database_drinks = excel_file.to_dict(orient='records')
+    #Надеюсь такое название подойдёт
 
     menu = collections.defaultdict(list)
-    for wine in data_drinks:
+    for wine in database_drinks:
         menu[wine['Категория']].append(wine)
         
     template = env.get_template('template.html')
 
 
     rendered_page = template.render(
-        winery_age=age_winery,
+        winery_age=winery_age,
         winecards=menu
     )
 
